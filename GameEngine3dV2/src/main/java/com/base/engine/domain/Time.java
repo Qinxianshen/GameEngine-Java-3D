@@ -12,6 +12,13 @@ public class Time {
 
     public static double delta;
 
+    /*
+    * 获取当前时间
+    * */
+    public static long getTime() {
+        return System.nanoTime();
+    }
+
     public static long getSECOND() {
         return SECOND;
     }
