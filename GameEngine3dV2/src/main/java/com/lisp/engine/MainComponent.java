@@ -1,8 +1,9 @@
-package com.lisp.engine.base;
+package com.lisp.engine;
 
 import com.lisp.engine.base.domain.Input;
 import com.lisp.engine.base.domain.Time;
 import com.lisp.engine.base.domain.Window;
+import com.lisp.engine.util.RenderUtil;
 import com.lisp.game.Impl.Game;
 
 /* author:Qinzijing
@@ -30,6 +31,7 @@ public class MainComponent {
     * 构造函数
     * */
     public MainComponent() {
+        RenderUtil.initGraphics();
         isRunning = false;
         game = new Game();
     }
@@ -123,6 +125,7 @@ public class MainComponent {
     * 渲染
     * */
     private void render(){
+        RenderUtil.clearScreen();
         game.render();
         Window.render();
     }
