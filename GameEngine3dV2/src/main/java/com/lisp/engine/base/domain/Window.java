@@ -1,4 +1,4 @@
-package com.base.engine.domain;
+package com.lisp.engine.base.domain;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;

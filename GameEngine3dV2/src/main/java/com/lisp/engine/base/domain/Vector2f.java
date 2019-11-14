@@ -1,12 +1,10 @@
-## GameEngine Java 3D V2.0
+package com.lisp.engine.base.domain;
 
-### 8.新建二维向量
-
-接下来我们新建二维向量 
-
-构造函数与Getter Setter ToString
-
-```java
+/* author:Qinzijing
+ *  date: 2019/11/14
+ *  description:2维向量
+ */
+public class Vector2f {
     private float x;
     private float y;
 
@@ -34,17 +32,14 @@
         this.y = y;
     }
 
+    @Override
+    public String toString() {
+        return "Vector2f{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 
-```
-
-为二维向量实现一些基本运算
-
-[二维向量一些基本运算公式]([./pic/3.3.png](https://zh.wikipedia.org/wiki/%E5%90%91%E9%87%8F))
-
-求模 点积 单位化 旋转 向量加减乘除
-
-
-```java
     /*
     * 求模 向量长度
     * */
@@ -130,21 +125,4 @@
     }
 
 
-```
-
-
-
-有了二维向量 我们就可以通过二维向量获取鼠标当前位置
-
-
-```java
-    /*
-    * 获取鼠标当前位置
-    * */
-    public static Vector2f getMousePosition()
-    {
-        return new Vector2f(Mouse.getX(), Mouse.getY());
-    }
-
-
-```
+}

@@ -1,4 +1,4 @@
-package com.base.engine.domain;
+package com.lisp.engine.base.domain;
 
 /* author:Qinzijing
 *  date: 2019/11/10

@@ -1,8 +1,9 @@
-package com.base;
+package com.lisp.engine.base;
 
-import com.base.engine.domain.Time;
-import com.base.engine.domain.Window;
-import com.base.game.Impl.Game;
+import com.lisp.engine.base.domain.Input;
+import com.lisp.engine.base.domain.Time;
+import com.lisp.engine.base.domain.Window;
+import com.lisp.game.Impl.Game;
 
 /* author:Qinzijing
 *  date: 2019/11/10
@@ -91,7 +92,12 @@ public class MainComponent {
                 /*
                  * 游戏逻辑更新
                  * */
+                game.input();
+                Input.update();
                 game.update();
+
+
+
 
                 if(frameCounter >= Time.SECOND){
                     System.out.println(frames);
