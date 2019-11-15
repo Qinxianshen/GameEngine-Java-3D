@@ -1,5 +1,6 @@
 package com.lisp.game.Impl;
 
+import com.lisp.engine.base.domain.Camera;
 import com.lisp.engine.base.domain.Input;
 import com.lisp.engine.base.domain.Time;
 import com.lisp.engine.base.domain.Vector3f;
@@ -21,6 +22,7 @@ public class Game implements CyberGame {
     private Mesh mesh;
     private Shader shader;
     private Transform transform;
+    private Camera camera;
     /*
      * 构造函数
      * */
@@ -29,9 +31,14 @@ public class Game implements CyberGame {
         //写的原生方法
 //        mesh = ResourceLoader.loadMesh("man.obj");
         //封装了第三方库后导入的
-        mesh = ResourceLoader.loadMeshByObjLoader("man.obj");
+        mesh = ResourceLoader.loadMeshByObjLoader("DoomhammerObj.obj");
         shader = new Shader();
         transform = new Transform();
+        /*
+        * 初始化摄像机
+        * */
+        camera = new Camera();
+        Transform.setCamera(camera);
 
 
         /*
@@ -67,17 +74,7 @@ public class Game implements CyberGame {
     * */
 
     public void input(){
-        if(Input.getKeyDown(Input.KEY_UP))
-            System.out.println("Up键已经被按下");
-        if (Input.getKeyUp(Input.KEY_UP)){
-            System.out.println("Up建已经被抬起");
-        }
-        if(Input.getMouseDown(1)) {
-            System.out.println("右键被按下");
-        }
-        if(Input.getMouseUp(1)){
-            System.out.println("右键被抬起");
-        }
+        camera.input();
     }
 
     float temp = 0.0f;
@@ -96,13 +93,13 @@ public class Game implements CyberGame {
         float sinTemp = (float)Math.sin(temp);
 
         //x 左右 y 上下 z前后
-        transform.setTranslation(sinTemp, 0, 0);
+        transform.setTranslation(sinTemp, 0, 5);
         transform.setRotation(0, sinTemp * 180, 0);
 
         /*
         * 将变化加入着色器 令他生效
         * */
-        shader.setUniform("transform", transform.getTransformation());
+        shader.setUniform("transform", transform.getProjectedTransformation());
 
     }
 

@@ -1,6 +1,7 @@
 package com.lisp.engine.physics;
 
 
+import com.lisp.engine.base.domain.Camera;
 import com.lisp.engine.base.domain.Matrix4f;
 import com.lisp.engine.base.domain.Vector3f;
 
@@ -9,7 +10,10 @@ import com.lisp.engine.base.domain.Vector3f;
 *  description:引擎部分 添加变换
 */
 public class Transform {
-
+    /*
+    * 摄像机
+    * */
+    private static Camera camera;
     /*
     * 平移
     * */
@@ -26,6 +30,16 @@ public class Transform {
     private Vector3f scale;
 
     /*
+    * 透视变换
+    * */
+    private static float zNear;
+    private static float zFar;
+    private static float width;
+    private static float height;
+    private static float fov;
+
+
+    /*
     * 构造函数
     * */
     public Transform() {
@@ -33,6 +47,19 @@ public class Transform {
         rotation = new Vector3f(0,0,0);
         scale = new Vector3f(1, 1, 1);
     }
+    /*
+    * 投影变换
+    * */
+    public Matrix4f getProjectedTransformation()
+    {
+        Matrix4f transformationMatrix = getTransformation();
+        Matrix4f projectionMatrix = new Matrix4f().initProjection(fov, width, height, zNear, zFar);
+        Matrix4f cameraRotation = new Matrix4f().initCamera(camera.getForward(), camera.getUp());
+        Matrix4f cameraTranslation = new Matrix4f().initTranslation(-camera.getPos().getX(), -camera.getPos().getY(), -camera.getPos().getZ());
+
+        return  projectionMatrix.mul(cameraRotation.mul(cameraTranslation.mul(transformationMatrix)));
+    }
+
     /*
     * 获得变换矩阵
     * */
@@ -82,6 +109,20 @@ public class Transform {
     {
         this.scale = new Vector3f(x, y, z);
     }
+    public static void setProjection(float fov, float width, float height, float zNear, float zFar)
+    {
+        Transform.fov = fov;
+        Transform.width = width;
+        Transform.height = height;
+        Transform.zNear = zNear;
+        Transform.zFar = zFar;
+    }
+    public static Camera getCamera() {
+        return camera;
+    }
 
+    public static void setCamera(Camera camera) {
+        Transform.camera = camera;
+    }
 
 }

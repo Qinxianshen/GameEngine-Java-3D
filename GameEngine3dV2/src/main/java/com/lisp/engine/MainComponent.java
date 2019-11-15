@@ -3,6 +3,7 @@ package com.lisp.engine;
 import com.lisp.engine.base.domain.Input;
 import com.lisp.engine.base.domain.Time;
 import com.lisp.engine.base.domain.Window;
+import com.lisp.engine.physics.Transform;
 import com.lisp.engine.util.RenderUtil;
 import com.lisp.game.Impl.Game;
 
@@ -35,6 +36,9 @@ public class MainComponent {
         System.out.println(RenderUtil.getOpenGLVersion());
         RenderUtil.initGraphics();
         isRunning = false;
+        //摄像机透视变化参数初始化
+        Transform.setProjection(70f, Window.getWidth(), Window.getHeight(), 0.1f, 1000);
+
         game = new Game();
     }
 
