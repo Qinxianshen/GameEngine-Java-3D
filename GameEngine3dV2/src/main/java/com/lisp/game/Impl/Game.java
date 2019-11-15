@@ -26,24 +26,12 @@ public class Game implements CyberGame {
      * */
     public Game() {
         //新建网格类
-        mesh = new Mesh();
+        //写的原生方法
+//        mesh = ResourceLoader.loadMesh("man.obj");
+        //封装了第三方库后导入的
+        mesh = ResourceLoader.loadMeshByObjLoader("man.obj");
         shader = new Shader();
         transform = new Transform();
-        //添加点
-        //由于是3棱锥 4个点即可
-        Vertex[] vertices = new Vertex[] { new Vertex(new Vector3f(-1, -1, 0)), new Vertex(new Vector3f(0, 1, 0)),
-                new Vertex(new Vector3f(1, -1, 0)), new Vertex(new Vector3f(0, -1, 1)) };
-        /*
-        * 添加点的连接顺序
-        * */
-        int[] indices = new int[] { 0, 1, 3,
-                3, 1, 2,
-                2, 1, 0,
-                0, 2, 3 };
-        /*
-        * 渲染到mesh上
-        * */
-        mesh.addVertices(vertices, indices);
 
 
         /*
@@ -108,7 +96,7 @@ public class Game implements CyberGame {
         float sinTemp = (float)Math.sin(temp);
 
         //x 左右 y 上下 z前后
-        transform.setTranslation(0, 0, 0);
+        transform.setTranslation(sinTemp, 0, 0);
         transform.setRotation(0, sinTemp * 180, 0);
 
         /*
