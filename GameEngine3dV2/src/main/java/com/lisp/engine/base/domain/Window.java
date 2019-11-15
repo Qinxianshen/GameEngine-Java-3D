@@ -47,6 +47,8 @@ public class Window {
     public static boolean isCloseRequested(){
         return Display.isCloseRequested();
     }
+
+
     /*
     * 获取窗体的名字 长宽 标题
     * */

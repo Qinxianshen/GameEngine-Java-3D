@@ -1,5 +1,6 @@
 package com.lisp.engine.util;
 
+import com.lisp.engine.base.domain.Matrix4f;
 import com.lisp.engine.render.domain.Vertex;
 import org.lwjgl.BufferUtils;
 
@@ -16,6 +17,9 @@ public class Util {
         return BufferUtils.createFloatBuffer(size);
     }
 
+    /*
+    * 缓存顶点类数据
+    * */
     public static FloatBuffer createFlippedBuffer(Vertex[] vertices)
     {
         FloatBuffer buffer = createFloatBuffer(vertices.length * Vertex.SIZE);
@@ -26,6 +30,21 @@ public class Util {
             buffer.put(vertices[i].getPos().getY());
             buffer.put(vertices[i].getPos().getZ());
         }
+
+        buffer.flip();
+
+        return buffer;
+    }
+    /*
+    * 缓存4维矩阵
+    * */
+    public static FloatBuffer createFlippedBuffer(Matrix4f value)
+    {
+        FloatBuffer buffer = createFloatBuffer(4 * 4);
+
+        for(int i = 0; i < 4; i++)
+            for(int j = 0; j < 4; j++)
+                buffer.put(value.get(i, j));
 
         buffer.flip();
 

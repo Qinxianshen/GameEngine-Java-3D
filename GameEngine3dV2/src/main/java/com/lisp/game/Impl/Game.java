@@ -1,6 +1,7 @@
 package com.lisp.game.Impl;
 
 import com.lisp.engine.base.domain.Input;
+import com.lisp.engine.base.domain.Time;
 import com.lisp.engine.base.domain.Vector3f;
 import com.lisp.engine.fileSystem.ResourceLoader;
 import com.lisp.engine.render.domain.Mesh;
@@ -36,9 +37,15 @@ public class Game implements CyberGame {
         * 为网格类加上材质
         * */
 
-        shader.addVertexShader(ResourceLoader.loadShader("basicVertex.vs"));
-        shader.addFragmentShader(ResourceLoader.loadShader("basicFragment.fs"));
+        shader.addVertexShader(ResourceLoader.loadShader("UniformVertex.vs"));
+        shader.addFragmentShader(ResourceLoader.loadShader("UniformFragment.fs"));
         shader.compileShader();
+
+        /*
+        * 添加均匀的处理方法
+        * */
+        shader.addUniform("uniformFloat");
+
 
     }
 
@@ -66,12 +73,14 @@ public class Game implements CyberGame {
         }
     }
 
-
+    float temp = 0.0f;
     /*
      * 更新
      * */
     public void update() {
+        temp += Time.getDelta();
 
+        shader.setUniformf("uniformFloat", (float)Math.abs(Math.sin(temp)));
     }
 
     /*

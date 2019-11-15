@@ -87,9 +87,15 @@ public class MainComponent {
                 render = true;
 
                 unprocessedTime -= frameTime;
-
-                if(Window.isCloseRequested())
+                /*
+                * 监听到关闭请求销毁窗口
+                * */
+                if(Window.isCloseRequested()){
                     stop();
+                    Window.dispose();
+                    return;
+                }
+
 
                 Time.setDelta(frameTime);
 

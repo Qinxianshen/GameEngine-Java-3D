@@ -1,6 +1,12 @@
 package com.lisp.engine.render.domain;
 
 
+import com.lisp.engine.base.domain.Matrix4f;
+import com.lisp.engine.base.domain.Vector3f;
+import com.lisp.engine.util.Util;
+
+import java.util.HashMap;
+
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL32.GL_GEOMETRY_SHADER;
 
@@ -10,12 +16,14 @@ import static org.lwjgl.opengl.GL32.GL_GEOMETRY_SHADER;
 */
 public class Shader {
     private int program;
-
+    private HashMap<String, Integer> uniforms;
     /*
     * 构造函数
     * */
     public Shader() {
         program = glCreateProgram();
+
+        uniforms = new HashMap<String,Integer>();
 
         if(program == 0)
         {
@@ -50,6 +58,23 @@ public class Shader {
     public void addFragmentShader(String text)
     {
         addProgram(text, GL_FRAGMENT_SHADER);
+    }
+
+    /*
+    * 均匀化
+    * */
+    public void addUniform(String uniform)
+    {
+        int uniformLocation = glGetUniformLocation(program, uniform);
+
+        if(uniformLocation == 0xFFFFFFFF)
+        {
+            System.err.println("Error: 无法找到uniform " + uniform);
+            new Exception().printStackTrace();
+            System.exit(1);
+        }
+
+        uniforms.put(uniform, uniformLocation);
     }
 
     public void compileShader()
@@ -93,5 +118,27 @@ public class Shader {
         }
 
         glAttachShader(program, shader);
+    }
+    /*
+    * 设置Uniform
+    * */
+    public void setUniformi(String uniformName, int value)
+    {
+        glUniform1i(uniforms.get(uniformName), value);
+    }
+
+    public void setUniformf(String uniformName, float value)
+    {
+        glUniform1f(uniforms.get(uniformName), value);
+    }
+
+    public void setUniform(String uniformName, Vector3f value)
+    {
+        glUniform3f(uniforms.get(uniformName), value.getX(), value.getY(), value.getZ());
+    }
+
+    public void setUniform(String uniformName, Matrix4f value)
+    {
+        glUniformMatrix4(uniforms.get(uniformName), true, Util.createFlippedBuffer(value));
     }
 }
