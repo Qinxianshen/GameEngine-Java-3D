@@ -2,7 +2,9 @@ package com.lisp.game.Impl;
 
 import com.lisp.engine.base.domain.Input;
 import com.lisp.engine.base.domain.Vector3f;
+import com.lisp.engine.fileSystem.ResourceLoader;
 import com.lisp.engine.render.domain.Mesh;
+import com.lisp.engine.render.domain.Shader;
 import com.lisp.engine.render.domain.Vertex;
 import com.lisp.game.CyberGame;
 import org.lwjgl.input.Keyboard;
@@ -15,6 +17,7 @@ public class Game implements CyberGame {
 
 
     private Mesh mesh;
+    private Shader shader;
     /*
      * 构造函数
      * */
@@ -22,11 +25,20 @@ public class Game implements CyberGame {
     public Game() {
         //新建网格类
         mesh = new Mesh();
+        shader = new Shader();
         //添加点
         Vertex[] data = new Vertex[] { new Vertex(new Vector3f(-1, -1, 0)), new Vertex(new Vector3f(0, 1, 0)),
                 new Vertex(new Vector3f(1, -1, 0)) };
 
         mesh.addVertices(data);
+
+        /*
+        * 为网格类加上材质
+        * */
+
+        shader.addVertexShader(ResourceLoader.loadShader("basicVertex.vs"));
+        shader.addFragmentShader(ResourceLoader.loadShader("basicFragment.fs"));
+        shader.compileShader();
 
     }
 
@@ -66,6 +78,7 @@ public class Game implements CyberGame {
      * 渲染
      * */
     public void render() {
+        shader.bind();
         mesh.draw();
 
     }

@@ -16,7 +16,7 @@ public class ResourceLoader {
 
         try
         {
-            shaderReader = new BufferedReader(new FileReader("./resources/shaders/" + fileName));
+            shaderReader = new BufferedReader(new FileReader("src/main/resources/shaders/" + fileName));
             String line;
 
             while((line = shaderReader.readLine()) != null)

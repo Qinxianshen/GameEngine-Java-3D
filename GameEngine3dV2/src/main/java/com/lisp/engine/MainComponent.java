@@ -31,6 +31,8 @@ public class MainComponent {
     * 构造函数
     * */
     public MainComponent() {
+
+        System.out.println(RenderUtil.getOpenGLVersion());
         RenderUtil.initGraphics();
         isRunning = false;
         game = new Game();
