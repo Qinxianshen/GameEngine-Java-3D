@@ -19,12 +19,19 @@ public class Transform {
     * 旋转
     * */
     private Vector3f rotation;
+
+    /*
+    * 缩放
+    * */
+    private Vector3f scale;
+
     /*
     * 构造函数
     * */
     public Transform() {
         translation = new Vector3f(0,0,0);
         rotation = new Vector3f(0,0,0);
+        scale = new Vector3f(1, 1, 1);
     }
     /*
     * 获得变换矩阵
@@ -33,7 +40,8 @@ public class Transform {
     {
         Matrix4f translationMatrix = new Matrix4f().initTranslation(translation.getX(), translation.getY(), translation.getZ());
         Matrix4f rotationMatrix = new Matrix4f().initRotation(rotation.getX(), rotation.getY(), rotation.getZ());
-        return translationMatrix.mul(rotationMatrix);
+        Matrix4f scaleMatrix = new Matrix4f().initScale(scale.getX(), scale.getY(), scale.getZ());
+        return translationMatrix.mul(rotationMatrix).mul(scaleMatrix);
     }
 
     /*
@@ -61,6 +69,18 @@ public class Transform {
     public void setRotation(float x, float y, float z)
     {
         this.rotation = new Vector3f(x, y, z);
+    }
+
+    public Vector3f getScale() {
+        return scale;
+    }
+
+    public void setScale(Vector3f scale) {
+        this.scale = scale;
+    }
+    public void setScale(float x, float y, float z)
+    {
+        this.scale = new Vector3f(x, y, z);
     }
 
 

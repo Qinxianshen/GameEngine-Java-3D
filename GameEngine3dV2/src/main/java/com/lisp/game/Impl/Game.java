@@ -24,7 +24,6 @@ public class Game implements CyberGame {
     /*
      * 构造函数
      * */
-
     public Game() {
         //新建网格类
         mesh = new Mesh();
@@ -95,11 +94,16 @@ public class Game implements CyberGame {
         /*
         * 均匀化 物理变化
         * */
-        transform.setTranslation((float)Math.sin(temp), 0, 0);
-        transform.setRotation(0, 0, (float)Math.sin(temp) * 180);
+        float sinTemp = (float)Math.sin(temp);
+
+        transform.setTranslation(sinTemp, 0, 0);
+        transform.setRotation(0, 0, sinTemp * 180);
+        transform.setScale(sinTemp, sinTemp, sinTemp);
+
+        /*
+        * 将变化加入着色器 令他生效
+        * */
         shader.setUniform("transform", transform.getTransformation());
-
-
 
     }
 
