@@ -4,6 +4,7 @@ import com.lisp.engine.base.domain.Input;
 import com.lisp.engine.base.domain.Time;
 import com.lisp.engine.base.domain.Vector3f;
 import com.lisp.engine.fileSystem.ResourceLoader;
+import com.lisp.engine.physics.Transform;
 import com.lisp.engine.render.domain.Mesh;
 import com.lisp.engine.render.domain.Shader;
 import com.lisp.engine.render.domain.Vertex;
@@ -19,6 +20,7 @@ public class Game implements CyberGame {
 
     private Mesh mesh;
     private Shader shader;
+    private Transform transform;
     /*
      * 构造函数
      * */
@@ -27,6 +29,7 @@ public class Game implements CyberGame {
         //新建网格类
         mesh = new Mesh();
         shader = new Shader();
+        transform = new Transform();
         //添加点
         Vertex[] data = new Vertex[] { new Vertex(new Vector3f(-1, -1, 0)), new Vertex(new Vector3f(0, 1, 0)),
                 new Vertex(new Vector3f(1, -1, 0)) };
@@ -37,14 +40,20 @@ public class Game implements CyberGame {
         * 为网格类加上材质
         * */
 
-        shader.addVertexShader(ResourceLoader.loadShader("UniformVertex.vs"));
+//        shader.addVertexShader(ResourceLoader.loadShader("UniformVertex.vs"));
+        shader.addVertexShader(ResourceLoader.loadShader("TransformVertex.vs"));
         shader.addFragmentShader(ResourceLoader.loadShader("UniformFragment.fs"));
         shader.compileShader();
 
         /*
         * 添加均匀的处理方法
         * */
-        shader.addUniform("uniformFloat");
+//        shader.addUniform("uniformFloat");
+
+        /*
+        * 添加变化的处理方法
+        * */
+        shader.addUniform("transform");
 
 
     }
@@ -79,8 +88,15 @@ public class Game implements CyberGame {
      * */
     public void update() {
         temp += Time.getDelta();
-
-        shader.setUniformf("uniformFloat", (float)Math.abs(Math.sin(temp)));
+        /*
+        * 均匀化 颜色变化
+        * */
+//        shader.setUniformf("uniformFloat", (float)Math.abs(Math.sin(temp)));
+        /*
+        * 均匀化 物理变化
+        * */
+        transform.setTranslation((float)Math.sin(temp), 0, 0);
+        shader.setUniform("transform", transform.getTransformation());
     }
 
     /*
