@@ -96,7 +96,11 @@ public class Game implements CyberGame {
         * 均匀化 物理变化
         * */
         transform.setTranslation((float)Math.sin(temp), 0, 0);
+        transform.setRotation(0, 0, (float)Math.sin(temp) * 180);
         shader.setUniform("transform", transform.getTransformation());
+
+
+
     }
 
     /*

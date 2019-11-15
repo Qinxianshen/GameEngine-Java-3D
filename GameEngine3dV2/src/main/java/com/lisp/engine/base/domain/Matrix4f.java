@@ -1,17 +1,27 @@
 package com.lisp.engine.base.domain;
 
+import java.util.Arrays;
+
 /* author:Qinzijing
 *  date: 2019/11/14
 *  description:四维矩阵
 */
+
 public class Matrix4f {
+
     private float[][] m;
 
+    /*
+    * 构造函数
+    * */
     public Matrix4f()
     {
         m = new float[4][4];
     }
-    //单位化
+    /*
+    *
+    * 单位化
+    * */
     public Matrix4f initIdentity()
     {
         m[0][0] = 1;	m[0][1] = 0;	m[0][2] = 0;	m[0][3] = 0;
@@ -21,27 +31,8 @@ public class Matrix4f {
 
         return this;
     }
-    //乘
-    public Matrix4f mul(Matrix4f r)
-    {
-        Matrix4f res = new Matrix4f();
-
-        for(int i = 0; i < 4; i++)
-        {
-            for(int j = 0; j < 4; j++)
-            {
-                r.set(i, j, m[i][0] * r.get(0, j) +
-                        m[i][1] * r.get(1, j) +
-                        m[i][2] * r.get(2, j) +
-                        m[i][3] * r.get(3, j));
-            }
-        }
-
-        return res;
-    }
-
     /*
-    * 四维矩阵平移变换
+    * 初始化平移
     * */
     public Matrix4f initTranslation(float x, float y, float z)
     {
@@ -52,8 +43,62 @@ public class Matrix4f {
 
         return this;
     }
+    /*
+    * 初始化旋转
+    * */
+    public Matrix4f initRotation(float x, float y, float z)
+    {
+        Matrix4f rx = new Matrix4f();
+        Matrix4f ry = new Matrix4f();
+        Matrix4f rz = new Matrix4f();
 
+        x = (float)Math.toRadians(x);
+        y = (float)Math.toRadians(y);
+        z = (float)Math.toRadians(z);
 
+        rz.m[0][0] = (float)Math.cos(z);rz.m[0][1] = -(float)Math.sin(z);rz.m[0][2] = 0;				rz.m[0][3] = 0;
+        rz.m[1][0] = (float)Math.sin(z);rz.m[1][1] = (float)Math.cos(z);rz.m[1][2] = 0;					rz.m[1][3] = 0;
+        rz.m[2][0] = 0;					rz.m[2][1] = 0;					rz.m[2][2] = 1;					rz.m[2][3] = 0;
+        rz.m[3][0] = 0;					rz.m[3][1] = 0;					rz.m[3][2] = 0;					rz.m[3][3] = 1;
+
+        rx.m[0][0] = 1;					rx.m[0][1] = 0;					rx.m[0][2] = 0;					rx.m[0][3] = 0;
+        rx.m[1][0] = 0;					rx.m[1][1] = (float)Math.cos(x);rx.m[1][2] = -(float)Math.sin(x);rx.m[1][3] = 0;
+        rx.m[2][0] = 0;					rx.m[2][1] = (float)Math.sin(x);rx.m[2][2] = (float)Math.cos(x);rx.m[2][3] = 0;
+        rx.m[3][0] = 0;					rx.m[3][1] = 0;					rx.m[3][2] = 0;					rx.m[3][3] = 1;
+
+        ry.m[0][0] = (float)Math.cos(y);ry.m[0][1] = 0;					ry.m[0][2] = -(float)Math.sin(y);ry.m[0][3] = 0;
+        ry.m[1][0] = 0;					ry.m[1][1] = 1;					ry.m[1][2] = 0;					ry.m[1][3] = 0;
+        ry.m[2][0] = (float)Math.sin(y);ry.m[2][1] = 0;					ry.m[2][2] = (float)Math.cos(y);ry.m[2][3] = 0;
+        ry.m[3][0] = 0;					ry.m[3][1] = 0;					ry.m[3][2] = 0;					ry.m[3][3] = 1;
+
+        m = rz.mul(ry.mul(rx)).getM();
+
+        return this;
+    }
+
+    /*
+    * 乘
+    * */
+    public Matrix4f mul(Matrix4f r)
+    {
+        Matrix4f res = new Matrix4f();
+
+        for(int i = 0; i < 4; i++)
+        {
+            for(int j = 0; j < 4; j++)
+            {
+                res.set(i, j, m[i][0] * r.get(0, j) +
+                        m[i][1] * r.get(1, j) +
+                        m[i][2] * r.get(2, j) +
+                        m[i][3] * r.get(3, j));
+            }
+        }
+
+        return res;
+    }
+    /*
+    * Getter and Setter
+    * */
     public float[][] getM()
     {
         return m;
@@ -73,4 +118,6 @@ public class Matrix4f {
     {
         m[x][y] = value;
     }
+
 }
+
