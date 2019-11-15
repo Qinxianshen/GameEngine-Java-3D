@@ -30,10 +30,21 @@ public class Game implements CyberGame {
         shader = new Shader();
         transform = new Transform();
         //添加点
-        Vertex[] data = new Vertex[] { new Vertex(new Vector3f(-1, -1, 0)), new Vertex(new Vector3f(0, 1, 0)),
-                new Vertex(new Vector3f(1, -1, 0)) };
+        //由于是3棱锥 4个点即可
+        Vertex[] vertices = new Vertex[] { new Vertex(new Vector3f(-1, -1, 0)), new Vertex(new Vector3f(0, 1, 0)),
+                new Vertex(new Vector3f(1, -1, 0)), new Vertex(new Vector3f(0, -1, 1)) };
+        /*
+        * 添加点的连接顺序
+        * */
+        int[] indices = new int[] { 0, 1, 3,
+                3, 1, 2,
+                2, 1, 0,
+                0, 2, 3 };
+        /*
+        * 渲染到mesh上
+        * */
+        mesh.addVertices(vertices, indices);
 
-        mesh.addVertices(data);
 
         /*
         * 为网格类加上材质
@@ -96,9 +107,9 @@ public class Game implements CyberGame {
         * */
         float sinTemp = (float)Math.sin(temp);
 
-        transform.setTranslation(sinTemp, 0, 0);
-        transform.setRotation(0, 0, sinTemp * 180);
-        transform.setScale(sinTemp, sinTemp, sinTemp);
+        //x 左右 y 上下 z前后
+        transform.setTranslation(0, 0, 0);
+        transform.setRotation(0, sinTemp * 180, 0);
 
         /*
         * 将变化加入着色器 令他生效

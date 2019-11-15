@@ -5,6 +5,7 @@ import com.lisp.engine.render.domain.Vertex;
 import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
 /* author:Qinzijing
 *  date: 2019/11/14
@@ -35,6 +36,24 @@ public class Util {
 
         return buffer;
     }
+
+    /*
+    * 缓存点的连接顺序 Indices
+    * */
+    public static IntBuffer createIntBuffer(int size)
+    {
+        return BufferUtils.createIntBuffer(size);
+    }
+
+    public static IntBuffer createFlippedBuffer(int... values)
+    {
+        IntBuffer buffer = createIntBuffer(values.length);
+        buffer.put(values);
+        buffer.flip();
+
+        return buffer;
+    }
+
     /*
     * 缓存4维矩阵
     * */
