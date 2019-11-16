@@ -7,6 +7,7 @@ import com.lisp.engine.physics.Transform;
 import com.lisp.engine.util.RenderUtil;
 import com.lisp.game.Impl.Game;
 
+
 /* author:Qinzijing
 *  date: 2019/11/10
 *  description:引擎的入口类
@@ -151,7 +152,7 @@ public class MainComponent {
     * 入口
     * */
     public static void main(String[] args) {
-        Window.createWindows(WIDTH,HEIGHT,TITLE);
+        Window.createWindow(WIDTH,HEIGHT,TITLE);
         MainComponent engine = new MainComponent();
         engine.start();
     }

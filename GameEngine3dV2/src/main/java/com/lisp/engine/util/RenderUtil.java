@@ -1,6 +1,8 @@
 package com.lisp.engine.util;
 
 
+import com.lisp.engine.base.domain.Vector3f;
+
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER_SRGB;
 
@@ -50,6 +52,16 @@ public class RenderUtil {
             glEnable(GL_TEXTURE_2D);
         else
             glDisable(GL_TEXTURE_2D);
+    }
+
+    public static void unbindTextures()
+    {
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
+
+    public static void setClearColor(Vector3f color)
+    {
+        glClearColor(color.getX(), color.getY(), color.getZ(), 1.0f);
     }
 
 }

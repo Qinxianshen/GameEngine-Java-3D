@@ -141,4 +141,9 @@ public class Shader {
     {
         glUniformMatrix4(uniforms.get(uniformName), true, Util.createFlippedBuffer(value));
     }
+
+    public void updateUniforms(Matrix4f worldMatrix, Matrix4f projectedMatrix, Material material)
+    {
+
+    }
 }
