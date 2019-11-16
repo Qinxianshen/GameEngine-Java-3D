@@ -3,12 +3,14 @@ package com.lisp.engine.fileSystem;
 
 import com.lisp.engine.base.domain.Vector3f;
 import com.lisp.engine.render.domain.Mesh;
+import com.lisp.engine.render.domain.Texture;
 import com.lisp.engine.render.domain.Vertex;
 import com.lisp.engine.util.Util;
 import de.javagl.obj.Obj;
 import de.javagl.obj.ObjData;
 import de.javagl.obj.ObjReader;
 import de.javagl.obj.ObjUtils;
+import org.newdawn.slick.opengl.TextureLoader;
 
 import java.io.*;
 import java.nio.FloatBuffer;
@@ -158,4 +160,29 @@ public class ResourceLoader {
 
 
     }
+
+    /*
+    * 纹理贴图加载
+    * */
+    public static Texture loadTexture(String fileName)
+    {
+        String[] splitArray = fileName.split("\\.");
+        String ext = splitArray[splitArray.length - 1];
+
+        try
+        {
+            int id = TextureLoader.getTexture(ext, new FileInputStream(new File("src/main/resources/texture/" + fileName))).getTextureID();
+
+            return new Texture(id);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+        return null;
+    }
+
+
 }

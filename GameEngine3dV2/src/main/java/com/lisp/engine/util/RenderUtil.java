@@ -40,4 +40,16 @@ public class RenderUtil {
     {
         return glGetString(GL_VERSION);
     }
+
+    /*
+    * 是否允许贴图加载
+    * */
+    public static void setTextures(boolean enabled)
+    {
+        if(enabled)
+            glEnable(GL_TEXTURE_2D);
+        else
+            glDisable(GL_TEXTURE_2D);
+    }
+
 }

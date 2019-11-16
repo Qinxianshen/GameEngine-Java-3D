@@ -1,13 +1,12 @@
 package com.lisp.game.Impl;
 
-import com.lisp.engine.base.domain.Camera;
-import com.lisp.engine.base.domain.Input;
-import com.lisp.engine.base.domain.Time;
-import com.lisp.engine.base.domain.Vector3f;
+import com.lisp.engine.Object.Pyramid;
+import com.lisp.engine.base.domain.*;
 import com.lisp.engine.fileSystem.ResourceLoader;
 import com.lisp.engine.physics.Transform;
 import com.lisp.engine.render.domain.Mesh;
 import com.lisp.engine.render.domain.Shader;
+import com.lisp.engine.render.domain.Texture;
 import com.lisp.engine.render.domain.Vertex;
 import com.lisp.game.CyberGame;
 import org.lwjgl.input.Keyboard;
@@ -23,6 +22,7 @@ public class Game implements CyberGame {
     private Shader shader;
     private Transform transform;
     private Camera camera;
+    private Texture texture;
     /*
      * 构造函数
      * */
@@ -31,7 +31,20 @@ public class Game implements CyberGame {
         //写的原生方法
 //        mesh = ResourceLoader.loadMesh("man.obj");
         //封装了第三方库后导入的
-        mesh = ResourceLoader.loadMeshByObjLoader("DoomhammerObj.obj");
+//        mesh = ResourceLoader.loadMeshByObjLoader("DoomhammerObj.obj");
+        Vertex[] vertices = new Vertex[] {new Vertex(new Vector3f(-1,-1,0), new Vector2f(0,0)),
+                new Vertex(new Vector3f(0,1,0), new Vector2f(0.5f,0)),
+                new Vertex(new Vector3f(1,-1,0), new Vector2f(1.0f,0)),
+                new Vertex(new Vector3f(0,-1,1), new Vector2f(0.5f,1.0f))};
+
+        int[] indices = new int[] { 3, 1, 0,
+                2, 1, 3,
+                0, 1, 2,
+                0, 2, 3 };
+        mesh = new Mesh();
+        mesh.addVertices(vertices, indices);
+
+
         shader = new Shader();
         transform = new Transform();
         /*
@@ -40,15 +53,26 @@ public class Game implements CyberGame {
         camera = new Camera();
         Transform.setCamera(camera);
 
+        /*
+        *
+        *加载贴图
+        * */
+        texture = ResourceLoader.loadTexture("test.png");
+
+        /*
+         * 新建一个三棱锥网格类
+         * */
+        Pyramid pyramid = new Pyramid(texture);
 
         /*
         * 为网格类加上材质
         * */
 
 //        shader.addVertexShader(ResourceLoader.loadShader("UniformVertex.vs"));
-        shader.addVertexShader(ResourceLoader.loadShader("TransformVertex.vs"));
-        shader.addFragmentShader(ResourceLoader.loadShader("UniformFragment.fs"));
+        shader.addVertexShader(ResourceLoader.loadShader("TextureVertex.vs"));
+        shader.addFragmentShader(ResourceLoader.loadShader("TextureFragment.fs"));
         shader.compileShader();
+
 
         /*
         * 添加均匀的处理方法
@@ -107,7 +131,11 @@ public class Game implements CyberGame {
      * 渲染
      * */
     public void render() {
+        /*
+        * 渲染的三个步骤
+        * */
         shader.bind();
+        texture.bind();
         mesh.draw();
 
     }
