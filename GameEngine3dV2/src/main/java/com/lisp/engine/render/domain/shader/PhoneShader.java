@@ -3,6 +3,7 @@ package com.lisp.engine.render.domain.shader;
 import com.lisp.engine.base.domain.Matrix4f;
 import com.lisp.engine.base.domain.Vector3f;
 import com.lisp.engine.fileSystem.ResourceLoader;
+import com.lisp.engine.physics.Transform;
 import com.lisp.engine.render.domain.BaseLight;
 import com.lisp.engine.render.domain.DirectionalLight;
 import com.lisp.engine.render.domain.Material;
@@ -38,6 +39,10 @@ public class PhoneShader extends Shader{
         addUniform("baseColor");
         addUniform("ambientLight");
 
+        addUniform("specularIntensity");
+        addUniform("specularPower");
+        addUniform("eyePos");
+
 
         addUniform("directionalLight.base.color");
         addUniform("directionalLight.base.intensity");
@@ -56,6 +61,11 @@ public class PhoneShader extends Shader{
         setUniform("baseColor", material.getColor());
         setUniform("ambientLight", ambientLight);
         setUniform("directionalLight", directionalLight);
+
+        setUniformf("specularIntensity", material.getSpecularIntensity());
+        setUniformf("specularPower", material.getSpecularPower());
+
+        setUniform("eyePos", Transform.getCamera().getPos());
     }
 
     public static Vector3f getAmbientLight()
