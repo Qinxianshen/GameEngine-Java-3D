@@ -1,5 +1,7 @@
 package com.lisp.game.Impl;
 
+import com.lisp.engine.Object.Cube;
+import com.lisp.engine.Object.Plane;
 import com.lisp.engine.Object.Pyramid;
 import com.lisp.engine.base.domain.*;
 import com.lisp.engine.fileSystem.ResourceLoader;
@@ -17,28 +19,25 @@ public class Game {
 	private Camera camera;
 	private Material material;
 
+
+	PointLight pLight1 = new PointLight(new BaseLight(new Vector3f(1,0.5f,0), 0.8f), new Attenuation(0,0,1), new Vector3f(-2,0,5f));
+	PointLight pLight2 = new PointLight(new BaseLight(new Vector3f(0,0.5f,1), 0.8f), new Attenuation(0,0,1), new Vector3f(2,0,7f));
+
 	public Game() {
 //		mesh = ResourceLoader.loadMesh("box.obj");
  		mesh = new Mesh();
 		/*
 		* 材质 亮度与贴图
 		* */
-		material = new Material(ResourceLoader.loadTexture("test.png"), new Vector3f(1,1,1));
+		material = new Material(ResourceLoader.loadTexture("test.png"), new Vector3f(1,1,1),1,8);
 		shader = PhoneShader.getInstance();
 		camera = new Camera();
 
-		//网格类
-		Vertex[] vertices = new Vertex[] { new Vertex( new Vector3f(-1.0f, -1.0f, 0.5773f),	new Vector2f(0.0f, 0.0f)),
-				new Vertex( new Vector3f(0.0f, -1.0f, -1.15475f),		new Vector2f(0.5f, 0.0f)),
-				new Vertex( new Vector3f(1.0f, -1.0f, 0.5773f),		new Vector2f(1.0f, 0.0f)),
-				new Vertex( new Vector3f(0.0f, 1.0f, 0.0f),      new Vector2f(0.5f, 1.0f)) };
+		Cube cube = new Cube();
+		mesh = cube.getMesh();
 
-		int indices[] = { 0, 3, 1,
-				1, 3, 2,
-				2, 3, 0,
-				1, 2, 0 };
 
-		mesh.addVertices(vertices, indices,true);
+
 
 //		mesh = ResourceLoader.loadMesh("DoomhammerObj.obj");
 		
@@ -47,6 +46,8 @@ public class Game {
 		transform = new Transform();
 		PhoneShader.setAmbientLight(new Vector3f(1f,1f,1f));
 		PhoneShader.setDirectionalLight(new DirectionalLight(new BaseLight(new Vector3f(1,1,1), 0.8f), new Vector3f(1,1,1)));
+
+//		PhoneShader.setPointLight(new PointLight[]{pLight1, pLight2});
 	}
 
 	public void input() {
@@ -61,8 +62,12 @@ public class Game {
 
 		float sinTemp = (float) Math.sin(temp);
 
-		transform.setTranslation(0, 0, 5);
-		transform.setRotation(0,sinTemp * 180, 0);
+		transform.setTranslation(0, -1, 5);
+//		transform.setRotation(0,sinTemp * 180, 0);
+//		transform.setScale(0.7f*sinTemp, 0.7f*sinTemp, 0.7f*sinTemp);
+
+		pLight1.setPosition(new Vector3f(3,0,8.0f * (float)(Math.sin(temp) + 1.0/2.0) + 10));
+		pLight2.setPosition(new Vector3f(7,0,8.0f * (float)(Math.cos(temp) + 1.0/2.0) + 10));
 
 	}
 

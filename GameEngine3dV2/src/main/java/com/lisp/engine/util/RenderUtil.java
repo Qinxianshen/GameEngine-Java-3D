@@ -5,6 +5,7 @@ import com.lisp.engine.base.domain.Vector3f;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER_SRGB;
+import static org.lwjgl.opengl.GL32.GL_DEPTH_CLAMP;
 
 /* author:Qinzijing
 *  date: 2019/11/14
@@ -31,9 +32,9 @@ public class RenderUtil {
         glEnable(GL_CULL_FACE);
         glEnable(GL_DEPTH_TEST);
 
-        //TODO: Depth clamp for later
+        glEnable(GL_DEPTH_CLAMP);
 
-        glEnable(GL_FRAMEBUFFER_SRGB);
+        glEnable(GL_TEXTURE_2D);
     }
     /*
     * 打印版本号

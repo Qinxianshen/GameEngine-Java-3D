@@ -33,7 +33,7 @@ public class Camera {
  	{	
 		float sensitivity = 0.5f;
  		float movAmt = (float)(10 * Time.getDelta());
- 		//float rotAmt = (float)(100 * Time.getDelta());
+ 		float rotAmt = (float)(100 * Time.getDelta());
  		if(Input.getKey(Input.KEY_ESCAPE))
  		{
  			Input.setCursor(true);
@@ -55,14 +55,14 @@ public class Camera {
  			move(getRight(), movAmt);
  		
  		
-//		if(Input.getKey(Input.KEY_UP))
-// 			rotateX(-rotAmt);
-// 		if(Input.getKey(Input.KEY_DOWN))
-// 			rotateX(rotAmt);
-// 		if(Input.getKey(Input.KEY_LEFT))
-// 			rotateY(-rotAmt);
-// 		if(Input.getKey(Input.KEY_RIGHT))
-// 			rotateY(rotAmt);
+		if(Input.getKey(Input.KEY_UP))
+ 			rotateX(-rotAmt);
+ 		if(Input.getKey(Input.KEY_DOWN))
+ 			rotateX(rotAmt);
+ 		if(Input.getKey(Input.KEY_LEFT))
+ 			rotateY(-rotAmt);
+ 		if(Input.getKey(Input.KEY_RIGHT))
+ 			rotateY(rotAmt);
  		
  		if(mouseLocked)
  		{

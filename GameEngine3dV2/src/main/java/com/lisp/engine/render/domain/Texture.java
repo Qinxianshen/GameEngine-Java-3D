@@ -2,6 +2,7 @@ package com.lisp.engine.render.domain;
 
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11.glBindTexture;
+import static org.lwjgl.opengl.GL12.GL_TEXTURE_3D;
 
 /* author:Qinzijing
 *  date: 2019/11/16
@@ -15,7 +16,7 @@ public class Texture {
     }
 
     public void bind() {
-        glBindTexture(GL_TEXTURE_2D, id);
+        glBindTexture(GL_TEXTURE_3D, id);
     }
 
     public int getID() {
