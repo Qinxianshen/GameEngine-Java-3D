@@ -6,6 +6,10 @@ import com.lisp.engine.render.domain.Material;
 import com.lisp.engine.render.domain.Shader;
 import com.lisp.engine.util.RenderUtil;
 
+
+/*
+* 基本的着色器 可以改变运动与颜色的深浅
+* */
 public class BasicShader extends Shader {
 
     private static final BasicShader instance = new BasicShader();

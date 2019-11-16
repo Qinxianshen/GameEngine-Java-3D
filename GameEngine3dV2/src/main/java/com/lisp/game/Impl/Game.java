@@ -1,5 +1,6 @@
 package com.lisp.game.Impl;
 
+import com.lisp.engine.Object.Pyramid;
 import com.lisp.engine.base.domain.*;
 import com.lisp.engine.fileSystem.ResourceLoader;
 import com.lisp.engine.physics.Transform;
@@ -8,6 +9,7 @@ import com.lisp.engine.render.domain.Mesh;
 import com.lisp.engine.render.domain.Shader;
 import com.lisp.engine.render.domain.Vertex;
 import com.lisp.engine.render.domain.shader.BasicShader;
+import com.lisp.engine.render.domain.shader.PhoneShader;
 import com.lisp.engine.util.RenderUtil;
 
 public class Game {
@@ -21,28 +23,23 @@ public class Game {
 	public Game() {
 //		mesh = ResourceLoader.loadMesh("box.obj");
  		mesh = new Mesh();
-		
+		/*
+		* 材质 亮度与贴图
+		* */
 		material = new Material(ResourceLoader.loadTexture("test.png"), new Vector3f(1,1,1));
- 		shader = BasicShader.getInstance();
+		shader = PhoneShader.getInstance();
 		camera = new Camera();
 
-		Vertex[] vertices = new Vertex[] {new Vertex(new Vector3f(-1,-1,0), new Vector2f(0,0)),
-				  new Vertex(new Vector3f(0,1,0), new Vector2f(0.5f,0)),
-				  new Vertex(new Vector3f(1,-1,0), new Vector2f(1.0f,0)),
-				  new Vertex(new Vector3f(0,-1,1), new Vector2f(0.5f,1.0f))};
-
-		int[] indices = new int[] { 3, 1, 0,
-									2, 1, 3,
-									0, 1, 2,
-									0, 2, 3 };
-
-		mesh.addVertices(vertices, indices);
+		//网格类
+		Pyramid pyramid = new Pyramid();
+		mesh = pyramid.getMesh();
 
 //		mesh = ResourceLoader.loadMesh("DoomhammerObj.obj");
 		
 		Transform.setProjection(70f, Window.getWidth(), Window.getHeight(), 0.1f, 1000);
 		Transform.setCamera(camera);
 		transform = new Transform();
+		PhoneShader.setAmbientLight(new Vector3f(10f,10f,10f));
 	}
 
 	public void input() {

@@ -16,12 +16,9 @@ import com.lisp.engine.render.domain.Vertex;
 */
 public class Pyramid {
 
-    private Texture texture;
     private Mesh mesh;
-    private Shader shader;
 
-    public Pyramid(Texture texture) {
-        this.texture = texture;
+    public  Pyramid() {
         Vertex[] vertices = new Vertex[] {new Vertex(new Vector3f(-1,-1,0), new Vector2f(0,0)),
                 new Vertex(new Vector3f(0,1,0), new Vector2f(0.5f,0)),
                 new Vertex(new Vector3f(1,-1,0), new Vector2f(1.0f,0)),
@@ -33,46 +30,6 @@ public class Pyramid {
                 0, 2, 3 };
         mesh = new Mesh();
         mesh.addVertices(vertices, indices);
-
-
-        shader = new Shader();
-        shader.addVertexShader(ResourceLoader.loadShader("TextureVertex.vs"));
-        shader.addFragmentShader(ResourceLoader.loadShader("TextureFragment.fs"));
-        shader.compileShader();
-        shader.addUniform("transform");
-    }
-
-    public Pyramid(Texture texture, Mesh mesh, Shader shader) {
-        this.texture = texture;
-        this.mesh = mesh;
-        this.shader = shader;
-        this.shader.compileShader();
-    }
-    public void update(){
-
-    }
-    public void render(){
-        shader.bind();
-        texture.bind();
-        mesh.draw();
-
-    }
-
-    public Shader getShader() {
-        return shader;
-    }
-
-    public void setShader(Shader shader) {
-        this.shader = shader;
-        this.shader.compileShader();
-    }
-
-    public Texture getTexture() {
-        return texture;
-    }
-
-    public void setTexture(Texture texture) {
-        this.texture = texture;
     }
 
     public Mesh getMesh() {
