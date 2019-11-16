@@ -9,12 +9,27 @@ import com.lisp.engine.base.domain.Vector3f;
 */
 public class Vertex {
     /*
-    * pos 3 xyz textCoord 2 xy
+    * pos 3 xyz textCoord 2 xy 法向量3
     * */
-    public static final int SIZE = 5;
+    public static final int SIZE = 8;
 
     private Vector3f pos;
     private Vector2f texCoord;
+    private Vector3f normal;//法向量
+
+    public Vertex(Vector3f pos, Vector2f texCoord, Vector3f normal) {
+        this.pos = pos;
+        this.texCoord = texCoord;
+        this.normal = normal;
+    }
+
+    public Vector3f getNormal() {
+        return normal;
+    }
+
+    public void setNormal(Vector3f normal) {
+        this.normal = normal;
+    }
 
     /*
     * 构造函数
@@ -25,8 +40,7 @@ public class Vertex {
     }
 
     public Vertex(Vector3f pos, Vector2f texCoord) {
-        this.pos = pos;
-        this.texCoord = texCoord;
+        this(pos, texCoord, new Vector3f(0,0,0));
     }
 
     /*
