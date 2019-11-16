@@ -1,8 +1,10 @@
 package com.lisp.engine.Object;
 
+import com.lisp.engine.base.domain.Camera;
 import com.lisp.engine.base.domain.Vector2f;
 import com.lisp.engine.base.domain.Vector3f;
 import com.lisp.engine.fileSystem.ResourceLoader;
+import com.lisp.engine.physics.Transform;
 import com.lisp.engine.render.domain.Mesh;
 import com.lisp.engine.render.domain.Shader;
 import com.lisp.engine.render.domain.Texture;
@@ -31,10 +33,13 @@ public class Pyramid {
                 0, 2, 3 };
         mesh = new Mesh();
         mesh.addVertices(vertices, indices);
+
+
         shader = new Shader();
-        shader.addVertexShader(ResourceLoader.loadShader("simpleTextureVertex.vs"));
-        shader.addFragmentShader(ResourceLoader.loadShader("simpleTextureFragment.fs"));
+        shader.addVertexShader(ResourceLoader.loadShader("TextureVertex.vs"));
+        shader.addFragmentShader(ResourceLoader.loadShader("TextureFragment.fs"));
         shader.compileShader();
+        shader.addUniform("transform");
     }
 
     public Pyramid(Texture texture, Mesh mesh, Shader shader) {
@@ -42,6 +47,9 @@ public class Pyramid {
         this.mesh = mesh;
         this.shader = shader;
         this.shader.compileShader();
+    }
+    public void update(){
+
     }
     public void render(){
         shader.bind();
